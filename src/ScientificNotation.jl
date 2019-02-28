@@ -11,7 +11,7 @@ truncated.
 """
 function string(x::Real; tally=0, base=10, digits=3, lower=0, upper=1, always=false)
     !isfinite(x) && return Base.string(x)
-    if float(base)^lower <= round(x, digits=digits) < float(base)^upper
+    if float(base)^lower <= round(abs(x), digits=digits) < float(base)^upper
         if tally != 0 || always
             return Base.string(
                 round(x, digits=digits),
@@ -22,7 +22,7 @@ function string(x::Real; tally=0, base=10, digits=3, lower=0, upper=1, always=fa
         else
             Base.string(round(x, digits=digits))
         end
-    elseif round(x, digits=digits) >= float(base)^upper
+    elseif round(abs(x), digits=digits) >= float(base)^upper
         string(x/base, tally=tally+1, base=base, digits=digits, lower=lower, upper=upper)
     else
         string(x*base, tally=tally-1, base=base, digits=digits, lower=lower, upper=upper)
