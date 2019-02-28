@@ -10,9 +10,19 @@ truncated.
 
 """
 function string(x::Real; tally=0, base=10, digits=3, lower=0, upper=1, always=false)
-    if float(base)^lower <= x < float(base)^upper
-        return (tally != 0 || always) ? "$(round(x, digits=digits)) × $base$(superscript(tally))" : "$(round(x, digits=digits))"
-    elseif x >= float(base)^upper
+    !isfinite(x) && return Base.string(x)
+    if float(base)^lower <= round(x, digits=digits) < float(base)^upper
+        if tally != 0 || always
+            return Base.string(
+                round(x, digits=digits),
+                " × ",
+                base,
+                superscript(tally)
+            )
+        else
+            Base.string(round(x, digits=digits))
+        end
+    elseif round(x, digits=digits) >= float(base)^upper
         string(x/base, tally=tally+1, base=base, digits=digits, lower=lower, upper=upper)
     else
         string(x*base, tally=tally-1, base=base, digits=digits, lower=lower, upper=upper)
