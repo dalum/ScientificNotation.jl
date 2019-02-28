@@ -1,0 +1,4 @@
+name = "ScientificNotation"
+uuid = "6443f040-3b56-11e9-14ae-25b1384fc1ba"
+authors = ["Sakse Dalum <dalum@users.noreply.github.com>"]
+version = "0.1.0"
